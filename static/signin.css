@@ -1,0 +1,77 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #1f1f1f;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+/* ✅ THIS is what you were missing — targets the actual input boxes */
+.form-signin .form-control {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border-color: #555;
+}
+
+/* ✅ Prevents Bootstrap from resetting it back to white on click */
+.form-signin .form-control:focus {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border-color: #888;
+  box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.1);
+}
+
+/* ✅ Makes the floating label text white */
+.form-signin .form-floating label {
+  color: #aaa;
+}
+
+/* ✅ White heading text */
+.form-signin h1 {
+  color: #fff;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+
+/* White "Remember me" text */
+.form-check-label {
+    color: #ffffff;
+}
+
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+    position: relative; /* z-index won't work without this! */
+}
+/* ✅ ADD THIS INSTEAD */
+.form-signin input[type="email"],
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+  margin-bottom: -1px;
+  border-radius: 0;
+}
+
+.form-signin .form-floating:first-child input {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.form-signin .form-floating:last-of-type input {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  margin-bottom: 10px;
+}
