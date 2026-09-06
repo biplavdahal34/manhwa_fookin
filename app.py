@@ -1,21 +1,30 @@
-from flask import Flask, render_template, flash, redirect, url_for, Request
+from flask import Flask, render_template, flash, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField
 from wtforms.validators import DataRequired, NumberRange, EqualTo, ValidationError, Length, Email
 import bcrypt   
-
+from flask_login import login_manager, UserMixin, login_required, login_user, logout_user, current_user, LoginManager
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SECRET_KEY'] = "DOUUFP98Y98VOUDGV8O78ODIJFGIU"
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+
+login_manager.login_view = 'login'
+login_manager.login_message = "Please log in to access this page."
+login_manager.login_message_category = "danger"
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, nullable = False)
     username = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
 
 class Manhwa(db.Model):
@@ -85,13 +94,20 @@ def login():
         username = form.username.data
         user = User.query.filter_by(username=username).first()
         if user:
-            db_password = user.password.encode("utf-8") if isinstance(user.password, bytes) else user.password.encode('utf-8')
+            db_password = user.password if isinstance(user.password, bytes) else user.password.encode('utf-8')
             form_pw = form.password.data.encode('utf-8') 
-            if bcrypt.checkpw(db_password, form_pw):
+            if bcrypt.checkpw(form_pw, db_password):
+                login_user(user)
                 flash("Login Successful", "success")
-                redirect("startpage.html")
+                return redirect(url_for('home'))
 
     return render_template('login.html', form=form)
+
+@login_required
+@app.route("/home")
+def home():
+    return render_template('index.html')
+
 
 
 
