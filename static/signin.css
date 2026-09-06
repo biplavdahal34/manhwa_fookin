@@ -10,6 +10,11 @@ body {
   padding-bottom: 40px;
   background-color: #1f1f1f;
 }
+/* Red border on error inputs in dark mode */
+.form-signin .form-control.is-invalid {
+  border-color: #ff4d4f !important;
+  box-shadow: 0 0 0 0.15rem rgba(255, 77, 79, 0.25);
+}
 
 .form-signin {
   width: 100%;
