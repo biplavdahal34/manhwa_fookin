@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for, request
+from flask import Flask, render_template, flash, redirect, url_for, Request
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField
@@ -62,8 +62,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Log In")
 
 @app.route("/")
-def home():
-    return render_template("home.html")
+def startpage():
+    return render_template("startpage.html")
 
 
 @app.route("/register", methods=['GET','POST'])
@@ -75,13 +75,23 @@ def register():
         db.session.commit()
         flash("Account Has Been Created!", 'success')
         print('success')
-        return redirect(url_for('login'))
-    print(request.form)
+        return redirect(url_for('login'))   
     return render_template("register.html", form = form)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    return "register success"
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        user = User.query.filter_by(username=username).first()
+        if user:
+            db_password = user.password.encode("utf-8") if isinstance(user.password, bytes) else user.password.encode('utf-8')
+            form_pw = form.password.data.encode('utf-8') 
+            if bcrypt.checkpw(db_password, form_pw):
+                flash("Login Successful", "success")
+                redirect("startpage.html")
+
+    return render_template('login.html', form=form)
 
 
 

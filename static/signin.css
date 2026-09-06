@@ -28,6 +28,7 @@ body {
   background-color: #2c2c2c;
   color: #ffffff;
   border-color: #555;
+  border-radius: 15px !important;  
 }
 
 /* ✅ Prevents Bootstrap from resetting it back to white on click */
@@ -56,6 +57,7 @@ body {
 /* White "Remember me" text */
 .form-check-label {
     color: #ffffff;
+    border-radius: 10px; 
 }
 
 .form-signin .form-floating:focus-within {
