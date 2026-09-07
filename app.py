@@ -145,8 +145,9 @@ def get_manhwa(manhwa_name):
     print("BODY:", response.text[:1000])
     if response.status_code == 200:
         data = (response.json)
-        return data["data"]
-    return {}
+        return data["api_ok":True,"data"]
+
+    return {"api_ok": False, "data": {}}
 
 @app.route("/spage")
 def startpage():
@@ -194,12 +195,14 @@ def search():
     if manhwa_name:
         data = get_manhwa(manhwa_name)
         all_data = data.get("Page",{}).get("media", [])
+        api_ok = data["api_ok"]
     else:
+        api_ok = True
         all_data = []
     print("RESULTS:", all_data)
 
 
-    return render_template("search.html", form = form, manhwas = all_data)
+    return render_template("search.html", form = form, manhwas = all_data, api_ok= api_ok, searched = bool(manhwa_name  ))
 
 
 
