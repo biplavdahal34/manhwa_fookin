@@ -5,6 +5,9 @@ from wtforms import StringField, IntegerField, SubmitField, TextAreaField, Passw
 from wtforms.validators import DataRequired, NumberRange, EqualTo, ValidationError, Length, Email
 import bcrypt   
 from flask_login import login_manager, UserMixin, login_required, login_user, logout_user, current_user, LoginManager
+import requests
+
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SECRET_KEY'] = "DOUUFP98Y98VOUDGV8O78ODIJFGIU"
@@ -29,6 +32,7 @@ class User(db.Model, UserMixin):
 
 class Manhwa(db.Model):
     id = db.Column(db.Integer, primary_key= True)
+    cover_image = db.Column()
     title = db.Column(db.String, nullable = False)
     genre = db.Column(db.String, nullable = False)
     ratings_number  = db.Column (db.Integer, nullable = False)
@@ -66,14 +70,87 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField(DataRequired(), validators=[Length(min=0, max=20)])
-    password = PasswordField(DataRequired(),validators= [Length(min=0)])
+    username = StringField("Username", validators=[DataRequired(),Length(min=0, max=20)])
+    password = PasswordField("Password",validators= [DataRequired(),Length(min=0)])
     submit = SubmitField("Log In")
 
-@app.route("/")
+class SearchForm(FlaskForm):
+    search_name = StringField("Search", validators=[DataRequired()])
+
+
+def discover_manhwa(manhwa_name):
+    url = "https://graphql.anilist.co"
+    
+    query = """" 
+    query ($name: String){
+        page(page:1, perpage:10){
+        media (search: $name, type: MANGA, countryOfOrigin:"KR", sort: TRENDING_DESC){
+            id
+            title{
+                english
+                romaji
+            }
+            coverImage{
+                large
+            }
+            description(asHTML: false)
+            chapters
+            status
+            avarageScore
+            genre
+            }
+        }
+    }
+    """
+
+    variables = {
+        "name":manhwa_name
+    }
+
+    response = requests.post(url, json={'query':query, 'variables':variables})
+    if response.status_code == 200:
+        data = response.json
+        return data["data"]
+    return []
+
+
+def get_manhwa(manhwa_name):
+    url = "https://graphql.anilist.co"
+    
+    query = """
+    query ($name: String){
+        Page(page:1, perPage:10){
+        media (search: $name, type: MANGA, countryOfOrigin:"KR"){
+            id
+            title{
+                english
+            }
+            coverImage{ large }
+            description(asHTML: false)
+            chapters
+            status
+            averageScore
+            genre
+            }
+        }
+    }
+    """
+
+    variables = {
+        "name":manhwa_name
+    }
+
+    response = requests.post(url, json={'query':query, 'variables':variables})
+    print("STATUS:", response.status_code)
+    print("BODY:", response.text[:1000])
+    if response.status_code == 200:
+        data = (response.json)
+        return data["data"]
+    return {}
+
+@app.route("/spage")
 def startpage():
     return render_template("startpage.html")
-
 
 @app.route("/register", methods=['GET','POST'])
 def register():
@@ -103,10 +180,26 @@ def login():
 
     return render_template('login.html', form=form)
 
-@login_required
+
+@app.route("/")
 @app.route("/home")
 def home():
     return render_template('index.html')
+
+@app.route("/search")
+def search():
+
+    form = SearchForm()
+    manhwa_name = request.args.get("q", "") 
+    if manhwa_name:
+        data = get_manhwa(manhwa_name)
+        all_data = data.get("Page",{}).get("media", [])
+    else:
+        all_data = []
+    print("RESULTS:", all_data)
+
+
+    return render_template("search.html", form = form, manhwas = all_data)
 
 
 

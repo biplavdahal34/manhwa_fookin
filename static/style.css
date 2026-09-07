@@ -331,7 +331,7 @@ ol {
 }
 
 .header__logo {
-	padding: 20px 0 17px;
+	padding: 13px 0 0px;
 }
 
 .header__logo a {
@@ -352,6 +352,7 @@ ol {
 .header__menu ul li.active a {
 	background: #008181;
 	color: #ffffff;
+	border-radius: 15px;
 }
 
 .header__menu ul li:hover a {
@@ -1219,7 +1220,7 @@ ol {
 	color: #ffffff;
 }
 
-.anime__video__player .plyr__controls .plyr__controls__item.plyr__progress__container {
+.anime__video__player .plyr__controls .plyr__controls__item.plyr__progress__  {
 	position: absolute;
 	left: 26px;
 	bottom: 45px;
@@ -1749,15 +1750,6 @@ ol {
 	margin-bottom: 20px;
 }
 
-.login__form form .input__item:before {
-	position: absolute;
-	left: 50px;
-	top: 10px;
-	height: 30px;
-	width: 1px;
-	background: #b7b7b7;
-	content: "";
-}
 
 .login__form form .input__item input {
 	height: 50px;
@@ -1932,7 +1924,7 @@ ol {
 -----------------------*/
 
 .footer {
-	background: #070720;
+	background: #1a1a1a;
 	padding-top: 60px;
 	padding-bottom: 40px;
 	position: relative;
@@ -1951,7 +1943,7 @@ ol {
 	color: #ffffff;
 	height: 50px;
 	width: 50px;
-	background: #e53637;
+	background: #070707;
 	line-height: 50px;
 	text-align: center;
 	border-radius: 50%;
@@ -2079,6 +2071,8 @@ ol {
 		right: 0;
 		top: 9px;
 	}
+	/* Search Form Container */
+
 	.slicknav_nav .slicknav_arrow {
 		color: #111111;
 	}
@@ -2133,6 +2127,64 @@ ol {
 }
 
 /* Wide Mobile = 480px */
+.search-pill-form {
+    min-width: 250px;
+    max-width: 400px;
+}
+
+/* Pill Input Styling */
+.search-input {
+    background-color: #262626 !important; /* Sleek dark background */
+    color: #ffffff !important;
+    border: 1px solid #404040 !important;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease-in-out;
+	padding-left: 2.5rem !important;
+}
+
+/* Placeholder color */
+.search-input::placeholder {
+    color: #8c8c8c;
+}
+
+/* Glow effect when the user clicks inside */
+.search-input:focus {
+    background-color: #1f1f1f !important;
+    border-color: #4267b2 !important; /* Nice blue focus ring */
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.35) !important;
+    outline: none;
+}
+
+/* Search icon positioning */
+.search-icon {
+    position: absolute !important;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    padding-left: 1rem;
+    font-size: 0.85rem;
+    color: #8c8c8c;
+    pointer-events: none;
+    z-index: 2;
+}
+.header__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+}
+
+.header__right .search-pill-form {
+    flex-shrink: 1;
+    min-width: 150px; /* lower than 250px so it can shrink instead of wrapping */
+}
+
+.header__right a {
+    flex-shrink: 0;
+}
+
 
 @media only screen and (max-width: 767px) {
 	.hero {

@@ -7,12 +7,13 @@
     <meta name="keywords" content="Anime, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anime | Template</title>
+    <title>Manhwa Mood</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='elegant-icons.css') }}">
+
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{url_for('static', filename=('bootstrap.min.css'))}}" type="text/css">
@@ -23,6 +24,8 @@
     <link rel="stylesheet" href="{{url_for('static', filename=('owl.carousel.min.css'))}}" type="text/css">
     <link rel="stylesheet" href="{{url_for('static', filename=('slicknav.min.css'))}}" type="text/css">
     <link rel="stylesheet" href="{{url_for('static', filename=('style.css'))}}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/elegant-icons@1.0.1/style.css">
 </head>
 
 <body>
@@ -42,31 +45,46 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-5">
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
-                                <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
+                                <li class="active"><a href="{{url_for('home')}}">Homepage</a></li>
+                                <li><a href="./categories.html">Discover ⌄</a>
                                     <ul class="dropdown">
                                         <li><a href="./categories.html">Categories</a></li>
-                                        <li><a href="./anime-details.html">Anime Details</a></li>
-                                        <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="./signup.html">Sign Up</a></li>
-                                        <li><a href="{{url_for('login')}}">Login</a></li>
+                                        <li><a href="./anime-details.html">Popular</a></li>
+                                        <li><a href="./anime-watching.html">Highest Rated</a></li>
+                                        <li><a href="./anime-watching.html">Latest Releases</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
+
+                                <li><a href="#">Contact Us</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-4 col-md-4">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="{{url_for('login')}}"><span class="icon_profile"></span></a>
+                        <form action="{{ url_for('search') }}" method="GET" class="search-pill-form d-flex align-items-center">
+                            <div class="search-box position-relative w-100">
+                                <!-- Search icon inside the pill -->
+
+                                <!-- Pill input -->
+                                <input 
+                                    type="search" 
+                                    name="q" 
+                                    class="form-control form-control-sm rounded-pill search-input ps-5 pe-3" 
+                                    placeholder="Search" 
+                                    value="{{ query or '' }}"
+                                    autocomplete="off"
+                                    required>
+                                    <span class="search-icon position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
+                                        <i class="fa-solid fa-search"></i>
+                                    </span>      
+                            </div>
+                        </form>
+                        <a href="#"><span class="icon_profile col-lg-2"><i class="fa-solid fa-user"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -76,48 +94,7 @@
     <!-- Header End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero__slider owl-carousel">
-                <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="hero__text">
-                                <div class="label">Adventure</div>
-                                <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                                <p>After 30 days of travel across the world...</p>
-                                <a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="hero__text">
-                                <div class="label">Adventure</div>
-                                <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                                <p>After 30 days of travel across the world...</p>
-                                <a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="hero__text">
-                                <div class="label">Adventure</div>
-                                <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                                <p>After 30 days of travel across the world...</p>
-                                <a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+   
     <!-- Hero Section End -->
 
     <!-- Product Section Begin -->
@@ -134,7 +111,8 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+
+                                    <a href="#" class="primary-btn">View All ☰</a>
                                 </div>
                             </div>
                         </div>

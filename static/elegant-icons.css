@@ -40,7 +40,7 @@ you can use the generic selector below, but it's slower:
 }
 .arrow_up:before {
 	content: "\21";
-}
+}icon_pro
 .arrow_down:before {
 	content: "\22";
 }
@@ -525,7 +525,7 @@ you can use the generic selector below, but it's slower:
 	content: "\e043";
 }
 .arrow_carrot-down_alt:before {
-	content: "\e044";
+	content: none;
 }
 .arrow_carrot-left_alt:before {
 	content: "\e045";
@@ -735,7 +735,7 @@ you can use the generic selector below, but it's slower:
 	content: "\e089";
 }
 .icon_profile:before {
-	content: "\e08a";
+	content: none;
 }
 .icon_group:before {
 	content: "\e08b";
