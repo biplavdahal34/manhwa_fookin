@@ -12,8 +12,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SECRET_KEY'] = "DOUUFP98Y98VOUDGV8O78ODIJFGIU"
 db = SQLAlchemy(app)
-login_manager = LoginManager(app)
 
+
+login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = "Please log in to access this page."
 login_manager.login_message_category = "danger"
@@ -115,39 +116,20 @@ def discover_manhwa(manhwa_name):
 
 
 def get_manhwa(manhwa_name):
-    url = "https://graphql.anilist.co"
+    url = "https://api.mangadex.org"
     
-    query = """
-    query ($name: String){
-        Page(page:1, perPage:10){
-        media (search: $name, type: MANGA, countryOfOrigin:"KR"){
-            id
-            title{
-                english
-            }
-            coverImage{ large }
-            description(asHTML: false)
-            chapters
-            status
-            averageScore
-            genre
-            }
-        }
-    }
-    """
+    r = requests.get(
+    f"{url}/manga",
+    params={"title": manhwa_name, "includes[]" : ["cover_art"]}
 
-    variables = {
-        "name":manhwa_name
-    }
 
-    response = requests.post(url, json={'query':query, 'variables':variables})
-    print("STATUS:", response.status_code)
-    print("BODY:", response.text[:1000])
-    if response.status_code == 200:
-        data = (response.json)
-        return data["api_ok":True,"data"]
+    )
 
-    return {"api_ok": False, "data": {}}
+    if r.status_code == 200:
+        response = r.json()['data']
+        return {"api_ok" :True, "response": response}
+    return {"api_ok":False, "response_json": None}
+
 
 @app.route("/spage")
 def startpage():
@@ -194,15 +176,21 @@ def search():
     manhwa_name = request.args.get("q", "") 
     if manhwa_name:
         data = get_manhwa(manhwa_name)
-        all_data = data.get("Page",{}).get("media", [])
-        api_ok = data["api_ok"]
+        print(data.keys())
+        print(data["response"])
+        cover_url = []
+        api_ok = data['api_ok']
+        for manga in data["response"]:
+            manga_id = manga["id"]
+            cover_rel = next((rel for rel in manga['relationships'] if rel['type'] == "cover_art"),None)
+            if cover_rel and "attributes" in cover_rel:
+                filename = cover_rel['attributes']['fileName']
+                cover_url.append(f'https://uploads.mangadex.org/covers/{manga_id}/{filename}')
     else:
         api_ok = True
-        all_data = []
-    print("RESULTS:", all_data)
 
 
-    return render_template("search.html", form = form, manhwas = all_data, api_ok= api_ok, searched = bool(manhwa_name  ))
+    return render_template("search.html", form = form, manhwas = data["response"], api_ok= api_ok, searched = bool(manhwa_name), cover_url = cover_url)
 
 
 

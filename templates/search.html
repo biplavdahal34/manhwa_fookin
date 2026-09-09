@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{url_for('static', filename=('style.css'))}}" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/elegant-icons@1.0.1/style.css">
+
+    <meta name="referrer" content="no-referrer">
 </head>
 
 <body>
@@ -115,24 +117,22 @@
                                 </div>
                             {%elif manhwas%}
                                 {%for manhwa in manhwas%}
-                                    <div class="row">
+                                    
                                         <div class="col-lg-4 col-md-6 col-sm-6">
                                             <div class="product__item">
-                                                <div class="product__item__pic set-bg" data-setbg="img/trending/trend-1.jpg">
-                                                    <div class="ep">18 / 18</div>
-                                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                                <div class="product__item__pic set-bg">
+                                                    <img src="{{cover_url[loop.index0]}}">  
                                                 </div>
                                                 <div class="product__item__text">
                                                     <ul>
                                                         <li>Active</li>
                                                         <li>Movie</li>
                                                     </ul>
-                                                    <h5><a href="#">{{manhwa.title.english}}</a></h5>
+                                                    <h5><a href="#">{{manhwa.attributes.title.get('en', 'Title Not Availabe') }}</a></h5>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    
                                 {%endfor%}
                                 {% else %}
                                     <div class="row">
