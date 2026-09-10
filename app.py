@@ -79,40 +79,21 @@ class SearchForm(FlaskForm):
     search_name = StringField("Search", validators=[DataRequired()])
 
 
-def discover_manhwa(manhwa_name):
-    url = "https://graphql.anilist.co"
+def popular_list(limit=8):
+    url = "https://api.mangadex.org"
     
-    query = """" 
-    query ($name: String){
-        page(page:1, perpage:10){
-        media (search: $name, type: MANGA, countryOfOrigin:"KR", sort: TRENDING_DESC){
-            id
-            title{
-                english
-                romaji
-            }
-            coverImage{
-                large
-            }
-            description(asHTML: false)
-            chapters
-            status
-            avarageScore
-            genre
-            }
-        }
-    }
-    """
+    r = requests.get(
+    f"{url}/manga",
+    params={"order[followedCount]": "desc",
+        "limit": limit,
+        "includes[]": ["cover_art"],
+        "contentRating[]": ["safe", "suggestive", "erotica"]}
+    )
 
-    variables = {
-        "name":manhwa_name
-    }
-
-    response = requests.post(url, json={'query':query, 'variables':variables})
-    if response.status_code == 200:
-        data = response.json
-        return data["data"]
-    return []
+    if r.status_code == 200:
+        response = r.json()['data']
+        return {"api_ok" :True, "response": response}
+    return {"api_ok":False, "response_json": None}
 
 
 def get_manhwa(manhwa_name):
@@ -121,8 +102,6 @@ def get_manhwa(manhwa_name):
     r = requests.get(
     f"{url}/manga",
     params={"title": manhwa_name, "includes[]" : ["cover_art"]}
-
-
     )
 
     if r.status_code == 200:
@@ -167,7 +146,21 @@ def login():
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('index.html')
+    manhwa_titles = []
+    popular = popular_list()
+    for manhwa in popular['response']:
+        titles =  manhwa['attributes']['altTitles']
+        for title in titles:
+            manhwa_titles.append(title)
+            cover_url = []
+            api_ok = popular['api_ok']
+            for manga in popular["response"]:
+                manga_id = manga["id"]
+                cover_rel = next((rel for rel in manga['relationships'] if rel['type'] == "cover_art"),None)
+                if cover_rel and "attributes" in cover_rel:
+                    filename = cover_rel['attributes']['fileName']
+                    cover_url.append(f'https://uploads.mangadex.org/covers/{manga_id}/{filename}')
+    return render_template('home.html', titles = manhwa_titles, manhwas = popular["response"], api_ok= api_ok, searched = bool(popular), cover_url = cover_url)
 
 @app.route("/search")
 def search():
@@ -192,8 +185,10 @@ def search():
 
     return render_template("search.html", form = form, manhwas = data["response"], api_ok= api_ok, searched = bool(manhwa_name), cover_url = cover_url)
 
+@app.route("/details")
+def details():
 
-
+    return render_template("anime-details.html")
 
 
 if __name__ == "__main__":
