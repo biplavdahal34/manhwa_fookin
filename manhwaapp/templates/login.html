@@ -8,7 +8,7 @@
     <meta name="generator" content="Hugo 0.84.0">
     <title>Signin Template · Bootstrap v5.0</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='signin.css') }}">
@@ -28,55 +28,186 @@
         }
       }
     </style>
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{{url_for('static', filename=('bootstrap.min.css'))}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename=('font-awesome.min.css'))}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename=('elegant-icons.css'))}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename=('plyr.css'))}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename=('nice-select.css'))}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename=('owl.carousel.min.css'))}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename=('slicknav.min.css'))}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename=('style.css'))}}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/elegant-icons@1.0.1/style.css">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename = 'images/front_logo.png')}}" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="{{url_for('static', filename = 'images/front_logo.png')}}" />
 
     
     <!-- Custom styles for this template -->
     <link href="signin.css" rel="stylesheet">
+    <style>
+      body {
+        display: block !important;
+      }
+      .signin-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        padding-top: 80px;
+        padding-bottom: 200px;
+        background-color: #111;
+      }
+      .form-check-label {   
+        color: #ffffff;
+        border-radius: 10px;
+        margin-bottom: 15px;}
+    </style>
   </head>
   <body class="text-center">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-    
-<main class="form-signin">
-  {% if form.errors %}
-  <div class="alert alert-danger text-start py-2 px-3 mb-3" style="font-size: 0.85rem; border-radius: 8px;">
-    <ul class="mb-0 ps-3">
-      {% for field, errors in form.errors.items() %}
-        {% for error in errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      {% endfor %}
-    </ul>
+    <!-- Header Section Begin -->
+    <header class="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2" >
+              <div class="header__logo" >
+                  <a href="{{url_for('home')}}">
+                    <img src="{{url_for('static', filename=('images/logo.png'))}}" alt="" width="96" height="40">
+                  </a>
+              </div>
+          </div>
+          <div class="col-lg-5">
+              <div class="header__nav">
+                  <nav class="header__menu mobile-menu">
+                      <ul>
+                          <li class="active"><a href="{{url_for('home')}}">Homepage</a></li>
+                          <li><a href="./categories.html">Discover ⌄</a>
+                              <ul class="dropdown">
+                                  <li><a href="./categories.html">Categories</a></li>
+                                  <li><a href="./anime-details.html">Popular</a></li>
+                                  <li><a href="./anime-watching.html">Highest Rated</a></li>
+                                  <li><a href="./anime-watching.html">Latest Releases</a></li>
+                              </ul>
+                          </li>
+
+                          <li><a href="#">Contact Us</a></li>
+                      </ul>
+                  </nav>
+              </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+              <div class="header__right">
+                  <form action="{{ url_for('search') }}" method="GET" class="search-pill-form d-flex align-items-center">
+                      <div class="search-box position-relative w-100">
+                          <!-- Search icon inside the pill -->
+
+                          <!-- Pill input -->
+                          <input 
+                              type="search" 
+                              name="q" 
+                              class="form-control form-control-sm rounded-pill search-input ps-5 pe-3" 
+                              placeholder="Search" 
+                              value="{{ query or '' }}"
+                              autocomplete="off"
+                              required>
+                              <span class="search-icon position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
+                                  <i class="fa-solid fa-search"></i>
+                              </span>      
+                      </div>
+                  </form>
+                  <a href="#"><span class="icon_profile col-lg-2"><i class="fa-solid fa-user"></i></span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </header>
+  <div class="signin-wrapper">
+    <main class="form-signin">
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <img class="mb-5" src="{{url_for('static', filename='images/logo.png')}}" alt="Logo" width="235" height="100">
+        {% if form.errors %}
+      <div class="alert alert-danger text-start py-2 px-3 mb-3" style="font-size: 0.85rem; border-radius: 8px;background-color: #009191; color: #f0f0f0; border: #ff0000; border-radius: 15px;">
+        <ul class="mb-0 ps-3">
+          {% for field, errors in form.errors.items() %}
+            {% for error in errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+        <h1 class="h4 mb-2 fw-normal">Log In </h1>
+
+        <div class="form-floating mb-2">
+            <input type="username" class="form-control" id="username" name="username" placeholder="name123">
+            <label form="username">Username</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" name="password" placeholder="password">
+            <label for="password">Password</label>
+        </div>
+
+        <div class="form-check-label mb-3">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="w-100 btn-lg" type="submit" style="background-color: #008181; color: #ffffff; border: #008181;border-radius: 12px;">Log In</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+      </form>
+      <div class="form-check-label">
+        <p style="color: white;">Dont Have An Account? <a href="{{url_for('register')}}">Sign Up</a></p>
+    </div>
+    </main>
   </div>
-{% endif %}
-  <form method="POST">
-    {{ form.hidden_tag() }}
-    <img class="mb-5" src="{{url_for('static', filename='images/logo.png')}}" alt="Logo" width="235" height="100">
-    <h1 class="h4 mb-2 fw-normal">Log In </h1>
 
-    <div class="form-floating mb-2">
-        <input type="username" class="form-control" id="username" name="username" placeholder="name123">
-        <label form="username">Username</label>
+
+  <footer class="footer">
+    <div class="page-up">
+        <a href="#" id="scrollToTopButton" ><p style="color: #ffffff;">⋀</p></a>
     </div>
-    <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password" name="password" placeholder="password">
-        <label for="password">Password</label>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="footer__logo">
+                    <a href="{{url_for('home')}}"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="footer__nav">
+                    <ul>
+                        <li class="active"><a href="{{url_for('home')}}">Homepage</a></li>
+                        <li><a href="./categories.html">Categories</a></li>
+                        <li><a href="./blog.html">Our Blog</a></li>
+                        <li><a href="#">Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+
+              </div>
+          </div>
+      </div>
+  </footer>
+<!-- Footer Section End -->
+
+<!-- Search model Begin -->
+  <div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch"><i class="icon_close"></i></div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
     </div>
-
-    <div class="form-check-label mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Log In</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-  </form>
-  <div class="form-check-label">
-    <p>Dont Have An Account? <a href="{{url_for('register')}}">Sign Up</a></p>
-</div>
-</main>
-
-
-    
+  </div>
   </body>
 </html>

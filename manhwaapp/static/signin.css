@@ -6,10 +6,10 @@ body {
 body {
   display: flex;
   align-items: center;
-  padding-top: 40px;
   padding-bottom: 40px;
   background-color: #1f1f1f;
 }
+.signin-wrapper { display: flex; align-items: center; min-height: 80vh; }
 /* Red border on error inputs in dark mode */
 .form-signin .form-control.is-invalid {
   border-color: #ff4d4f !important;
@@ -57,7 +57,8 @@ body {
 /* White "Remember me" text */
 .form-check-label {
     color: #ffffff;
-    border-radius: 10px; 
+    border-radius: 10px;
+    margin-bottom: 15px;
 }
 
 .form-signin .form-floating:focus-within {
@@ -68,7 +69,7 @@ body {
 .form-signin input[type="email"],
 .form-signin input[type="text"],
 .form-signin input[type="password"] {
-  margin-bottom: -1px;
+  margin-bottom: 0px;
   border-radius: 0;
 }
 

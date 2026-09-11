@@ -9,7 +9,8 @@ def latest_list(limit=8):
     params={"order[createdAt]": "desc",
         "limit": limit,
         "includes[]": ["cover_art"],
-        "contentRating[]": ["safe", "suggestive", "erotica"]}
+        "contentRating[]": ["safe", "suggestive", "erotica"],
+        "order[relevance]": "desc",}
     )
 
     if r.status_code == 200:
@@ -25,7 +26,9 @@ def popular_list(limit=8):
     params={"order[followedCount]": "desc",
         "limit": limit,
         "includes[]": ["cover_art"],
-        "contentRating[]": ["safe", "suggestive", "erotica"]}
+        "contentRating[]": ["safe", "suggestive", "erotica"],
+        "order[relevance]": "desc",
+        }
     )
 
     if r.status_code == 200:

@@ -632,6 +632,7 @@ ol {
 .product {
 	padding-bottom: 60px;
 	padding-top: 80px;
+	background-color: #111;
 }
 
 .product-page {
@@ -670,14 +671,18 @@ ol {
     width: 100%;
     height: 100%;
     object-fit: cover;
-	border-radius: 7px;
+	border-radius: 15px;
 }
 .product__item__pic_mainpage {
 	position: relative;
 	width: 100%;
-    height: 230px;
-    object-fit: contain;
-	border-radius: 10px;
+    height: 240px;
+    object-fit: fill;
+	border-radius: 15px;
+	background-color: #000;
+	overflow: hidden;
+    object-fit: cover;      /* fallback fit */
+    object-position: top; 
 }
 .product__item__pic .ep {
 	font-size: 13px;
@@ -1095,7 +1100,7 @@ ol {
 .anime__details__btn .follow-btn {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #008181;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1108,7 +1113,7 @@ ol {
 .anime__details__btn .watch-btn span {
 	font-size: 13px;
 	color: #ffffff;
-	background: #e53637;
+	background: #008181;
 	display: inline-block;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -1121,7 +1126,7 @@ ol {
 .anime__details__btn .watch-btn i {
 	font-size: 20px;
 	display: inline-block;
-	background: #e53637;
+	background: #008181;
 	padding: 11px 5px 16px 8px;
 	color: #ffffff;
 	border-radius: 0 4px 4px 0;
@@ -1203,7 +1208,7 @@ ol {
 	font-weight: 700;
 	letter-spacing: 2px;
 	text-transform: uppercase;
-	background: #e53637;
+	background: #008181;
 	border: none;
 	padding: 10px 15px;
 	border-radius: 2px;
@@ -1337,7 +1342,7 @@ ol {
 
 .breadcrumb__links a i {
 	margin-right: 5px;
-	color: #e53637;
+	color: #008181;
 }
 
 .breadcrumb__links a:after {
@@ -1434,7 +1439,7 @@ ol {
 }
 
 .blog__item__text p span {
-	color: #e53637;
+	color: #008181;
 	margin-right: 5px;
 }
 
@@ -1664,7 +1669,7 @@ ol {
 }
 
 .blog__details__comment__item__text a:hover {
-	background: #e53637;
+	background: #008181;
 }
 
 .blog__details__form {
@@ -1845,7 +1850,7 @@ ol {
 }
 
 .login__register .primary-btn {
-	background: #e53637;
+	background: #008181;
 	padding: 12px 42px;
 }
 
@@ -1928,7 +1933,7 @@ ol {
 }
 
 .signup .login__form h5 a {
-	color: #e53637;
+	color: #008181;
 	font-weight: 700;
 }
 
@@ -2014,7 +2019,7 @@ ol {
 }
 
 .footer__copyright__text a {
-	color: #e53637;
+	color: #008181;
 }
 
 /*--------------------------------- Responsive Media Quaries -----------------------------*/
@@ -2093,6 +2098,7 @@ ol {
 		margin: 0;
 		color: #111111;
 		font-weight: 600;
+	
 	}
 	.slicknav_btn {
 		border-radius: 0;
