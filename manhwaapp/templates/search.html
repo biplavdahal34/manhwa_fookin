@@ -33,7 +33,7 @@
                                                     <li>Active</li>
                                                     <li>Movie</li>
                                                 </ul>
-                                                <h5><a href="{{url_for('details')}}">{{ manhwa.attributes.title.get('en', 'Title Not Availabe') }}</a></h5>
+                                                <h5><a href="{{url_for('details')}}">{{ titles[loop.index0] }}</a></h5>
                                             </div>
                                         </div>
                                     </div>
