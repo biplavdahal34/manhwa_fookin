@@ -39,7 +39,11 @@ def get_manhwa(manhwa_name):
     
     r = requests.get(
     f"{url}/manga",
-    params={"title": manhwa_name, "includes[]" : ["cover_art"]}
+    params={
+    "title": manhwa_name,
+    "includes[]" : ["cover_art"],
+    "order[relevance]": "desc",
+    }
     )
 
     if r.status_code == 200:
