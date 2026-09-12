@@ -4,8 +4,7 @@ from flask import render_template, flash, redirect, url_for, request
 from manhwaapp import app, db
 from manhwaapp.forms import RegisterForm, LoginForm, SearchForm
 from manhwaapp.models import User, Manhwa, MYmanhwalist
-from manhwaapp.misc import latest_list, popular_list, get_manhwa
-
+from manhwaapp.misc import latest_list, popular_list, get_manhwa_byid, get_manhwa_byname
 
 
 @app.route("/spage")
@@ -90,7 +89,7 @@ def search():
     manhwa_name = request.args.get("q", "") 
     search_titles = []
     if manhwa_name:
-        data = get_manhwa(manhwa_name)
+        data = get_manhwa_byname(manhwa_name)
         for manhwa in data['response']:
             alttitles =  manhwa['attributes']['altTitles']
             en_title = next((title['en'] for title in alttitles if "en" in title),None)
@@ -112,7 +111,35 @@ def search():
 
     return render_template("search.html", form = form, manhwas = data["response"], api_ok= api_ok, searched = bool(manhwa_name), cover_url = cover_url, titles = search_titles)
 
-@app.route("/details")
-def details():
+@app.route("/details/<manhwa_id>")
+def details(manhwa_id):
 
-    return render_template("anime-details.html")
+    data = get_manhwa_byid(manhwa_id)
+    print(data)
+    if data['api_ok']:
+        manhwa = data['response']
+        alttitles =  manhwa['attributes']['altTitles']
+        en_title = next((title['en'] for title in alttitles if "en" in title),None)
+        if en_title:
+            title = en_title
+        else:
+            title = (iter(manhwa['attributes']['title'].values()))
+        cover_url = []
+        api_ok = data['api_ok']
+        manga_id = manhwa["id"]
+        cover_rel = next((rel for rel in manhwa['relationships'] if rel['type'] == "cover_art"),None)
+        description = manhwa['attributes']['description']['en']
+        if cover_rel and "attributes" in cover_rel:
+            filename = cover_rel['attributes']['fileName']
+            cover_url = f'https://uploads.mangadex.org/covers/{manga_id}/{filename}'
+        else:
+            api_ok = True
+    else:
+        api_ok = False
+        manhwa = None
+        title = None
+        description = None
+        cover_url = None
+        manga_id = None
+
+    return render_template("anime-details.html", manhwa = data['response'], cover_url = cover_url, manga_id=manga_id, api_ok=api_ok, title = title, description = description)

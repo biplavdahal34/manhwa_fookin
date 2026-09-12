@@ -997,8 +997,32 @@ ol {
 	color: #b7b7b7;
 	font-size: 18px;
 	line-height: 30px;
+	text-overflow: ellipsis;
 }
+.description-text {
+    color: #ccc;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;      /* show 4 lines by default */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+	margin-bottom: -5px;
+}
+.description-text.expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+.read-more-btn {
+    background: none;
+    border: none;
+    color: #ffffff;             /* or whatever your accent color is */
+    cursor: pointer;
+    padding: 4px 0;
+    font-size: 1rem;
+}
+.read-more-btn:hover {
+	text-decoration: underline;
 
+}
 .anime__details__pic {
 	height: 440px;
 	border-radius: 5px;
